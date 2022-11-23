@@ -1,7 +1,5 @@
 # Artists Model and Repository Classes Design Recipe
 
-_Copy this recipe template to design and implement Model and Repository classes for a database table._
-
 ## 1. Design and create the Table
 
 If the table is already created in the database, you can skip this step.
@@ -56,16 +54,16 @@ Usually, the Model class name will be the capitalised table name (single instead
 
 ```ruby
 # EXAMPLE
-# Table name: students
+# Table name: artists
 
 # Model class
-# (in lib/student.rb)
-class Student
+# (in lib/artist.rb)
+class Artist
 end
 
 # Repository class
-# (in lib/student_repository.rb)
-class StudentRepository
+# (in lib/artist_repository.rb)
+class ArtistRepository
 end
 ```
 
@@ -80,10 +78,10 @@ Define the attributes of your Model class. You can usually map the table columns
 # Model class
 # (in lib/student.rb)
 
-class Student
+class Artist
 
   # Replace the attributes by your own columns.
-  attr_accessor :id, :name, :cohort_name
+  attr_accessor :id, :name, :genre
 end
 
 # The keyword attr_accessor is a special Ruby feature
@@ -110,36 +108,36 @@ Using comments, define the method signatures (arguments and return value) and wh
 # Repository class
 # (in lib/student_repository.rb)
 
-class StudentRepository
-
-  # Selecting all records
-  # No arguments
+class ArtistRepository
+  
+  # what it does - selecting all records
+  # what arguments it takes - no arguments
   def all
-    # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students;
+    # executes the SQL query
+    # SELECT id, name, genre FROM artists;
 
-    # Returns an array of Student objects.
+    # returns an array of Artist objects
   end
 
-  # Gets a single record by its ID
-  # One argument: the id (number)
+  # what it does - select a single record by its ID
+  # what arguments it takes - single argument, number
   def find(id)
-    # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students WHERE id = $1;
+    # executes the SQL query
+    # SELECT id, name, genre FROM artists WHERE id = $1;
 
-    # Returns a single Student object.
+    # returns single Artist object
   end
 
-  # Add more methods below for each operation you'd like to implement.
+  # creates a new record 
+  # takes 2 arguments, text
+  def create(artist_name, artist_genre)
+    # executes the SQL query
+    # INSERT INTO artists
+    #   ( name, genre )
+    #   VALUES( artist_name, artist_genre )
 
-  # def create(student)
-  # end
-
-  # def update(student)
-  # end
-
-  # def delete(student)
-  # end
+    # creates a new record in the artist table
+  end
 end
 ```
 
@@ -155,19 +153,12 @@ These examples will later be encoded as RSpec tests.
 # 1
 # Get all students
 
-repo = StudentRepository.new
+repo = ArtistRepository.new
 
-students = repo.all
-
-students.length # =>  2
-
-students[0].id # =>  1
-students[0].name # =>  'David'
-students[0].cohort_name # =>  'April 2022'
-
-students[1].id # =>  2
-students[1].name # =>  'Anna'
-students[1].cohort_name # =>  'May 2022'
+artists = repo.all
+artists.length # => 2
+artists.first.id # => '1'
+artists.first.name # => 'Pixies'
 
 # 2
 # Get a single student
